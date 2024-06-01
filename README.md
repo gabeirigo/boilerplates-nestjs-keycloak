@@ -29,6 +29,10 @@
 ## Installation
 
 ```bash
+$ docker compose up
+```
+
+```bash
 $ yarn install
 ```
 
@@ -44,6 +48,9 @@ $ yarn run start:dev
 # production mode
 $ yarn run start:prod
 ```
+
+LEMBRE-SE DE CRIAR UM USUÁRIO NO KEYCLOAK COM TODAS AS ROLES LIBERADAS PARA ELE.
+O projeto roda na porta 3333
 
 ## Test
 
@@ -64,9 +71,9 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+-   Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+-   Website - [https://nestjs.com](https://nestjs.com/)
+-   Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 

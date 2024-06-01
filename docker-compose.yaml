@@ -13,5 +13,19 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    command:
+      - "start-dev"
+      - "--http-port=8080"
+    environment:
+      # - "KEYCLOAK_IMPORT= /opt/jboss/keycloak/imports/realm-export.json"
+      - "KEYCLOAK_ADMIN=keycloakdev"
+      - "KEYCLOAK_ADMIN_PASSWORD=keycloakdev"
+    volumes:
+      - /opt/keycloak/data/import/realm-export.json
+    ports:
+      - "8080:8080"
+
 volumes:
   pgdata:
