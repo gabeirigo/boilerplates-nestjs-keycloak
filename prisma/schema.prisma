@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum FieldTypeParameter {
+  TEXT
+  NUMBER
+  CHECK
+  SELECT
+}
+
+model Company {
+  id                    String      @id @default(uuid())
+  company_name          String
+  identification_number String
+  users                 User[]
+  parameters            Parameter[]
+
+  @@map("companies")
+}
+
+model User {
+  id          String    @id @default(uuid())
+  email       String    @unique
+  keycloak_id String    @unique
+  nickname    String    @unique
+  attributes  Json?
+  address_id  String?
+  contact_id  String?
+  contacts    Contact[]
+  addresses   Address[]
+  companies   Company[]
+  role        Role
+
+  @@map("users")
+}
+
+model Address {
+  id       String  @id @default(uuid())
+  street   String
+  city     String
+  state    String
+  zip_code String
+  country  String
+  user     User?   @relation(fields: [user_id], references: [id])
+  user_id  String?
+
+  @@map("addresses")
+}
+
+model Contact {
+  id      String  @id @default(uuid())
+  phone   String
+  email   String
+  user    User?   @relation(fields: [user_id], references: [id])
+  user_id String?
+
+  @@map("contacts")
+}
+
+model Parameter {
+  id                      String              @id @default(uuid())
+  value                   String
+  company                 Company?            @relation(fields: [company_id], references: [id])
+  company_id              String?
+  parameter_definition_id String              @unique
+  parameter_definition    ParameterDefinition @relation(fields: [parameter_definition_id], references: [id], onDelete: Cascade)
+
+  @@map("parameters")
+}
+
+model ParameterDefinition {
+  id                    String             @id @default(uuid())
+  name                  String             @unique
+  label                 String
+  description           String
+  field_type            FieldTypeParameter
+  options               Json[]
+  parameter             Parameter?
+  parameter_category    ParameterCategory? @relation(fields: [parameter_category_id], references: [id])
+  parameter_category_id String?
+
+  @@map("parameter_definition")
+}
+
+model ParameterCategory {
+  id                 String                @id @default(uuid())
+  name               String
+  label              String
+  parameters_defined ParameterDefinition[]
+
+  @@map("parameter_category")
+}
